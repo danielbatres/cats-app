@@ -249,5 +249,6 @@ $RECYCLE.BIN/
 
 pom.xml
 .idea
+/src/main/java/Private.java
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,java,maven,intellij,netbeans

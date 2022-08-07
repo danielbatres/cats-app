@@ -1,1 +1,1 @@
-# cats-app
+# Cats application

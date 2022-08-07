@@ -1,0 +1,3 @@
+public class Private {
+    public static String apiKey = "";
+}
