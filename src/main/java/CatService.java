@@ -56,8 +56,40 @@ public class CatService {
                 Image modified = background.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
             }
 
+            String menu = "Options: \n" +
+                    "1. See another image\n" +
+                    "2. Favorite\n" +
+                    "3. Back\n";
+
+            String[] buttons = {"See another image", "Favorite", "Back"};
+            String idCat = cats.getId();
+            String option = (String) JOptionPane.showInputDialog(null, menu, idCat, JOptionPane.INFORMATION_MESSAGE, catBackground, buttons, buttons[0]);
+
+            int selection = -1;
+
+            for (int i = 0; i < buttons.length; i++) {
+                if (option.equals(buttons[i])) {
+                    selection = i;
+                }
+            }
+
+            switch (selection) {
+                case 0:
+                    seeCats();
+                    break;
+                case 1:
+                    // favoriteCat(cats);
+                    break;
+                default:
+                    break;
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void favoriteCat(Cats cat) {
+
     }
 }
