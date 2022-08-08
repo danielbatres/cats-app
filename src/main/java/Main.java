@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         int optionMenu = -1;
-        String[] buttons = {"1. See cats", "2. Exit"};
+        String[] buttons = {"1. See cats", "2. See favourites", "3. Exit"};
 
         do {
             // Main menu
@@ -20,6 +20,10 @@ public class Main {
             switch (optionMenu) {
                 case 0:
                     CatService.seeCats();
+                    break;
+                case 1:
+                    Cats cat = new Cats();
+                    CatService.seeFavourites(cat.getApiKey());
                     break;
                 default:
                     break;

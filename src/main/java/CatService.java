@@ -5,7 +5,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CatService {
@@ -101,6 +100,39 @@ public class CatService {
                     .build();
 
             Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void seeFavourites(String apiKey) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url("https://api.thecatapi.com/v1/favourites")
+                    .get()
+                    .addHeader("x-api-key", apiKey)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            String json = response .body().string();
+
+            // Create gson object
+
+            Gson gson = new Gson();
+
+            FavCats[] arrayCats = gson.fromJson(json, FavCats[].class);
+
+            if (arrayCats.length > 0) {
+                int min = 1;
+                int max = arrayCats.length;
+                int random = (int) (Math.random() * ((max -min) - 1)) + min;
+                int index = random - 1;
+
+                FavCats favCat = arrayCats[index];
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
