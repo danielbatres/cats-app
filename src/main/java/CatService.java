@@ -152,7 +152,7 @@ public class CatService {
                             "2. Delete favourite\n" +
                             "3. Back\n";
 
-                    String[] buttons = {"See another image", "Favorite", "Back"};
+                    String[] buttons = {"See another image", "Delete favorite", "Back"};
                     String idCat = favCat.getId();
                     String option = (String) JOptionPane.showInputDialog(null, menu, idCat, JOptionPane.INFORMATION_MESSAGE, catBackground, buttons, buttons[0]);
 
@@ -185,6 +185,19 @@ public class CatService {
     }
 
     public static void deleteFavourite(FavCats favCat) {
+        try {
+            OkHttpClient client = new OkHttpClient();
 
+            Request request = new Request.Builder()
+                    .url("https://api.thecatapi.com/v1/favourites/" + favCat.getId())
+                    .delete(null)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("x-api-key", favCat.getApiKey())
+                    .build();
+
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
