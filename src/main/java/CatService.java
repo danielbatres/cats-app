@@ -1,7 +1,5 @@
 import com.google.gson.Gson;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -78,7 +76,7 @@ public class CatService {
                     seeCats();
                     break;
                 case 1:
-                    // favoriteCat(cats);
+                    favoriteCat(cats);
                     break;
                 default:
                     break;
@@ -90,6 +88,21 @@ public class CatService {
     }
 
     public static void favoriteCat(Cats cat) {
+        try {
+            OkHttpClient client = new OkHttpClient();
 
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, "{\n\t\"image_id\": \"" + cat.getId() + "\"\n}");
+            Request request = new Request.Builder()
+                    .url("https://api.thecatapi.com/v1/favourites")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("x-api-key", Private.apiKey)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
