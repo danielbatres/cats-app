@@ -128,13 +128,63 @@ public class CatService {
             if (arrayCats.length > 0) {
                 int min = 1;
                 int max = arrayCats.length;
-                int random = (int) (Math.random() * ((max -min) - 1)) + min;
+                int random = (int) (Math.random() * ((max -min) + 1)) + min;
                 int index = random - 1;
 
                 FavCats favCat = arrayCats[index];
+
+                Image image = null;
+
+                try {
+                    URL url = new URL(favCat.image.getUrl());
+
+                    image = ImageIO.read(url);
+
+                    ImageIcon catBackground = new ImageIcon(image);
+
+                    if (catBackground.getIconWidth() > 800) {
+                        Image background = catBackground.getImage();
+                        Image modified = background.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+                    }
+
+                    String menu = "Options: \n" +
+                            "1. See another image\n" +
+                            "2. Delete favourite\n" +
+                            "3. Back\n";
+
+                    String[] buttons = {"See another image", "Favorite", "Back"};
+                    String idCat = favCat.getId();
+                    String option = (String) JOptionPane.showInputDialog(null, menu, idCat, JOptionPane.INFORMATION_MESSAGE, catBackground, buttons, buttons[0]);
+
+                    int selection = -1;
+
+                    for (int i = 0; i < buttons.length; i++) {
+                        if (option.equals(buttons[i])) {
+                            selection = i;
+                        }
+                    }
+
+                    switch (selection) {
+                        case 0:
+                            seeFavourites(apiKey);
+                            break;
+                        case 1:
+                            deleteFavourite(favCat);
+                            break;
+                        default:
+                            break;
+                    }
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void deleteFavourite(FavCats favCat) {
+
     }
 }
